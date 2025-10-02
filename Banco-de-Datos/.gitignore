@@ -32,16 +32,6 @@ Thumbs.db
 *.smk~
 
 # ===========================
-# Entornos Conda y virtualenv
-# ===========================
-.env/
-*.yaml~
-*.yml~
-*.conda
-envs/
-.conda/
-
-# ===========================
 # Secuencias y alineamientos
 # ===========================
 *.fastq
@@ -135,3 +125,4 @@ multiqc_report.html
 *.intermediate
 *.tmp
 *.temp
+
