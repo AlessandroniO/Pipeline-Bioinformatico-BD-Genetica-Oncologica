@@ -1,0 +1,128 @@
+# ===========================
+# Directorios de datos
+# ===========================
+data/raw/*
+data/processed/*
+results/*
+logs/*
+
+# ===========================
+# Archivos temporales y de logs
+# ===========================
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*.swo
+*.intermediate
+*.tmpdir
+
+# ===========================
+# Archivos del sistema
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Directorios y archivos de Snakemake
+# ===========================
+.snakemake/
+*.snakemake
+*.smk~
+
+# ===========================
+# Secuencias y alineamientos
+# ===========================
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.sam
+*.bam
+*.bai
+*.cram
+*.crai
+*.bed
+*.bed.gz
+*.bedgraph
+*.wig
+*.wig.gz
+*.gff
+*.gff3
+*.gtf
+*.fa
+*.fa.gz
+*.fasta
+*.fasta.gz
+*.fai
+*.dict
+
+# ===========================
+# Archivos de variantes
+# ===========================
+*.vcf
+*.vcf.gz
+*.bcf
+*.bcf.csi
+*.gvcf
+*.gvcf.gz
+*.vcf.idx
+
+# ===========================
+# Caché de VEP y anotaciones
+# ===========================
+.vep/
+vep_cache/
+*.lof
+*.vep_cache/
+*.vep_tmp/
+
+# ===========================
+# Índices de referencia y aligners
+# ===========================
+*.idx
+*.bt2
+*.bwt
+*.amb
+*.ann
+*.pac
+*.sa
+*.dict
+*.fai
+*.starIndex/
+*.bowtie_index/
+*.bwa_index/
+
+# ===========================
+# Resultados de calidad de secuencias
+# ===========================
+fastqc_report.html
+fastqc.zip
+multiqc_report.html
+
+# ===========================
+# Notebooks y checkpoints
+# ===========================
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# ===========================
+# Archivos de reportes y figuras
+# ===========================
+*.html
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.tiff
+*.eps
+
+# ===========================
+# Archivos intermedios de pipelines
+# ===========================
+*.intermediate
+*.tmp
+*.temp
+
