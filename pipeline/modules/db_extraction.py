@@ -13,19 +13,18 @@ def get_output_path():
     if len(sys.argv) > 1:
         return sys.argv[1]
     else:
-        # Modo de prueba si se ejecuta sin Snakemake
         print("ADVERTENCIA: Ejecución directa. Usando ruta de prueba. Use Snakemake para la ruta final.")
         return "data/processed/variantes_temp.csv"
 
 # =========================================================================
-# 2. FUNCIÓN DE EXTRACCIÓN Y EXPORTACIÓN DE DATOS
+# 2. FUNCIÓN DE EXTRACCIÓN Y EXPORTACIÓN DE DATOS (SIN MOCK DATA)
 # =========================================================================
 def fetch_data_and_export():
     """
     Conecta a la base de datos, extrae las variantes y las exporta a un CSV.
+    Si la conexión falla, el script termina con un error de Python.
     """
     
-    # Obtener la ruta de salida.
     OUTPUT_CSV = get_output_path()
     
     # Crear el directorio si no existe
@@ -36,13 +35,13 @@ def fetch_data_and_export():
     # ---------------------------------------------------------------------
     # LÓGICA DE EXTRACCIÓN DE DATOS REAL
     # ---------------------------------------------------------------------
+    print("INFO: Intentando conectar a la base de datos MySQL (host.docker.internal)...")
+    
     try:
-        print("INFO: Intentando conectar a la base de datos MySQL...")
-        
         # 1. ESTABLECER CONEXIÓN 
         conn = mysql.connector.connect(
-            host="host.docker.internal",        
-            user="root",    
+            host="host.docker.internal",       
+            user="root",   
             password="arquisoft1", 
             database="dw_banco_de_datos" 
         )
@@ -56,7 +55,7 @@ def fetch_data_and_export():
             t.Id_tipo_tumor, 
             ug.Id_ubicacion_genomica,
 
-            -- Datos de la muestra
+            -- Datos de la muestra (CRÍTICO para la división)
             m.Tipo_de_muestra, 
             m.Fecha_obtencion, 
             m.Lugar_obtencion,
@@ -104,23 +103,25 @@ def fetch_data_and_export():
         
         # 4. CERRAR CONEXIÓN
         conn.close()
-        print(f"INFO: Conexión cerrada. Se extrajeron {len(df)} filas.")
+        print(f"INFO: ✅ Éxito en la conexión y extracción. Se extrajeron {len(df)} filas.")
         
         # ---------------------------------------------------------------------
         # EXPORTAR EL DATAFRAME A CSV
         # ---------------------------------------------------------------------
         df.to_csv(OUTPUT_CSV, index=False)
-        print(f"✅ Éxito: Datos exportados a {OUTPUT_CSV}")
+        print(f"INFO: Datos exportados a {OUTPUT_CSV}")
 
     except mysql.connector.Error as err:
-        print(f"❌ ERROR MySQL: Algo salió mal al conectar o consultar: {err}")
+        print(f"❌ ERROR CRÍTICO MySQL: Algo salió mal al conectar o consultar: {err}")
+        print("El pipeline fallará porque no se pudo obtener los datos reales.")
+        # Salir con código de error para que Snakemake falle
         sys.exit(1)
     except Exception as e:
         print(f"❌ Error inesperado durante la exportación: {e}")
         sys.exit(1)
 
 # =========================================================================
-# 3. EJECUCIÓN DEL SCRIPT (¡CORRECCIÓN APLICADA AQUÍ!)
+# 3. EJECUCIÓN DEL SCRIPT
 # =========================================================================
 if __name__ == "__main__":
     fetch_data_and_export()
