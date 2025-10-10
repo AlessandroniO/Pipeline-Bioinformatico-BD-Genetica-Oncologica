@@ -2,9 +2,36 @@ import sys
 import os
 import pandas as pd
 import mysql.connector
+from mysql.connector import pooling # Importar pooling para gestionar conexiones
 
 # =========================================================================
-# 1. FUNCIÓN PARA OBTENER LA RUTA DE SALIDA
+# 1. CONFIGURACIÓN Y CONEXIÓN
+# =========================================================================
+
+# NOTA: Usando credenciales hardcodeadas por solicitud del usuario.
+DB_CONFIG = {
+    'host': '192.168.100.6',
+    'user': 'root',
+    'password': 'arquisoft1',
+    'database': 'dw_banco_de_datos'
+}
+
+# Usamos un Pool de conexiones para manejar mejor la escalabilidad
+try:
+    db_pool = mysql.connector.pooling.MySQLConnectionPool(
+        pool_name="bioinfo_pool",
+        pool_size=5,  # Tamaño del pool de conexiones
+        **DB_CONFIG
+    )
+    print("INFO: Pool de conexiones MySQL creado con éxito.")
+except mysql.connector.Error as err:
+    # Ahora que no usamos ENV, la configuración debe ser correcta o fallar aquí
+    print(f"❌ ERROR CRÍTICO MySQL: No se pudo crear el Pool de conexiones: {err}")
+    sys.exit(1)
+
+
+# =========================================================================
+# 2. FUNCIÓN PARA OBTENER LA RUTA DE SALIDA
 # =========================================================================
 def get_output_path():
     """
@@ -14,10 +41,10 @@ def get_output_path():
         return sys.argv[1]
     else:
         print("ADVERTENCIA: Ejecución directa. Usando ruta de prueba. Use Snakemake para la ruta final.")
-        return "data/processed/variantes_temp.csv"
+        return "data/intermediate/variantes_extraidas.csv"
 
 # =========================================================================
-# 2. FUNCIÓN DE EXTRACCIÓN Y EXPORTACIÓN DE DATOS (SIN MOCK DATA)
+# 3. FUNCIÓN DE EXTRACCIÓN Y EXPORTACIÓN DE DATOS (SIN MOCK DATA)
 # =========================================================================
 def fetch_data_and_export():
     """
@@ -32,76 +59,65 @@ def fetch_data_and_export():
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
 
-    # ---------------------------------------------------------------------
-    # LÓGICA DE EXTRACCIÓN DE DATOS REAL
-    # ---------------------------------------------------------------------
-    print("INFO: Intentando conectar a la base de datos MySQL (host.docker.internal)...")
-    
     try:
-        # 1. ESTABLECER CONEXIÓN 
-        conn = mysql.connector.connect(
-            host="host.docker.internal",       
-            user="root",   
-            password="arquisoft1", 
-            database="dw_banco_de_datos" 
-        )
+        # 1. OBTENER CONEXIÓN DEL POOL
+        conn = db_pool.get_connection()
+        if not conn.is_connected():
+            raise mysql.connector.Error("No se pudo obtener una conexión válida del pool.")
         
-        # 2. CONSULTA SQL (Tu consulta completa)
+        # 2. CONSULTA SQL CORREGIDA: Cambio de origen de la columna de posición
         SQL_QUERY = """
-        SELECT 
-            -- IDs
-            v.Id_variante, 
-            m.Id_muestra, 
-            t.Id_tipo_tumor, 
-            ug.Id_ubicacion_genomica,
+        SELECT
+            -- Campos VCF Requeridos por el pipeline
+            ug.Cromosoma AS chrom,
+            v.Posicion AS pos, -- CRÍTICO: Se obtiene de la tabla Variantes (v.Posicion) ya que Ubicacion_genomica no contiene el campo numérico.
+            v.Id_variante AS id,
+            v.Alelo_referencia AS ref, -- CRÍTICO: REF
+            v.Alelo_alternativo AS alt, -- CRÍTICO: ALT
+            v.Calidad AS qual, -- CRÍTICO: Calidad
+            v.Filtro AS filter, -- CRÍTICO: Filtro
+            v.Tipo_variante AS tipo_variante,
+            
+            -- Metadatos de la Muestra (para inferencia SOMATIC/GERMLINE)
+            m.Tipo_de_muestra AS tipo_de_muestra,
 
-            -- Datos de la muestra (CRÍTICO para la división)
-            m.Tipo_de_muestra, 
-            m.Fecha_obtencion, 
-            m.Lugar_obtencion,
-
-            -- Datos del tumor
-            t.Nombre AS Tipo_tumor, 
-            t.Descripcion AS Detalle_tumor, 
-            t.Codigo_cie10,
-
-            -- Datos de la variante
-            v.Variante, 
-            v.Tipo_modificacion, 
-            v.Descripcion AS Detalle_variante,
-
-            -- Datos de ubicación y clínica
-            ug.Cromosoma, 
-            ug.Brazo, 
-            ug.Region,
-            ug.Banda, 
-            ug.Sub_banda,
-            uxv.Significancia_clinica, 
-            uxv.Frec_alelica
+            -- Metadatos del Paciente (Requeridos por QC y Split)
+            p.Sexo AS sexo,
+            YEAR(CURDATE()) - YEAR(p.Fecha_nacimiento) AS edad,
+            tt.Nombre AS tipo_tumor,
+            d_addr.Barrio AS barrio -- Correcto, se obtiene de la tabla Direccion (d_addr)
+            
 
         FROM Variantes v
-        LEFT JOIN Tipo_tumor_variante tv 
-            ON v.Id_variante = tv.Id_variante
-        LEFT JOIN Tipo_tumor t 
-            ON tv.Id_tipo_tumor = t.Id_tipo_tumor
-        LEFT JOIN Variante_x_informe vi 
-            ON v.Id_variante = vi.Id_variante
-        
-        LEFT JOIN Informe_resultado i 
-            ON vi.Id_informe = i.Id_informe
-        LEFT JOIN Muestra_genomica m 
-            ON i.Id_muestra = m.Id_muestra
-        LEFT JOIN Ubicacion_x_variante uxv 
+        -- Uniones para obtener metadatos y ubicación (manteniendo tu esquema de JOINs)
+        LEFT JOIN Ubicacion_x_variante uxv
             ON v.Id_variante = uxv.Id_variante
-        LEFT JOIN Ubicacion_genomica ug 
+        LEFT JOIN Ubicacion_genomica ug
             ON uxv.Id_ubicacion_genomica = ug.Id_ubicacion_genomica
+        LEFT JOIN Tipo_tumor_variante ttv
+            ON v.Id_variante = ttv.Id_variante
+        LEFT JOIN Tipo_tumor tt
+            ON ttv.Id_tipo_tumor = tt.Id_tipo_tumor
+        LEFT JOIN Variante_x_informe vxi
+            ON v.Id_variante = vxi.Id_variante
+        LEFT JOIN Informe_resultado ir
+            ON vxi.Id_informe = ir.Id_informe
+        LEFT JOIN Muestra_genomica m
+            ON ir.Id_muestra = m.Id_muestra
+        LEFT JOIN Paciente p
+            ON p.Id_paciente = m.Id_paciente
+        LEFT JOIN Direccion d_addr -- JOIN para obtener el BARRIO
+            ON p.Id_direccion = d_addr.Id_direccion
+        LEFT JOIN Diagnostico_paciente d
+            ON p.Id_paciente = d.Id_paciente
         ORDER BY m.Id_muestra, v.Id_variante;
+
         """
-        
+
         # 3. EJECUTAR CONSULTA Y OBTENER DATOS EN UN DATAFRAME
         df = pd.read_sql(SQL_QUERY, conn)
         
-        # 4. CERRAR CONEXIÓN
+        # 4. CERRAR CONEXIÓN (IMPORTANTE DEVOLVERLA AL POOL)
         conn.close()
         print(f"INFO: ✅ Éxito en la conexión y extracción. Se extrajeron {len(df)} filas.")
         
@@ -114,14 +130,13 @@ def fetch_data_and_export():
     except mysql.connector.Error as err:
         print(f"❌ ERROR CRÍTICO MySQL: Algo salió mal al conectar o consultar: {err}")
         print("El pipeline fallará porque no se pudo obtener los datos reales.")
-        # Salir con código de error para que Snakemake falle
         sys.exit(1)
     except Exception as e:
         print(f"❌ Error inesperado durante la exportación: {e}")
         sys.exit(1)
 
 # =========================================================================
-# 3. EJECUCIÓN DEL SCRIPT
+# 4. EJECUCIÓN DEL SCRIPT
 # =========================================================================
 if __name__ == "__main__":
     fetch_data_and_export()

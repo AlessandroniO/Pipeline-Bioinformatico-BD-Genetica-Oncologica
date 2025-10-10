@@ -1,4 +1,4 @@
-# Snakemake Workflow para el TFG (Separación Somática/Germinal)
+# Snakemake Workflow para el TFG (Separación Somática/Germinal y QC)
 # ===============================================================
 
 # ----------------
@@ -12,26 +12,29 @@ GENOME_REFERENCE = "/dev/null"
 FINAL_SOMATIC_VCF = "data/processed/somatic.cohort.norm.vcf.gz"
 FINAL_GERMLINE_VCF = "data/processed/germline.cohort.norm.vcf.gz"
 
+# Archivo de salida de QC de Metadatos
+METADATA_QC_REPORT = "data/results/qc/metadata_report.html"
+
 
 # ----------------
 # REGLA FINAL (TARGET)
 # ----------------
-# El objetivo final es generar los VCFs normalizados para ambas cohortes.
+# El objetivo final es generar los VCFs normalizados Y el reporte de QC.
 rule all:
     input:
         FINAL_SOMATIC_VCF,
-        FINAL_GERMLINE_VCF
+        FINAL_GERMLINE_VCF,
+        METADATA_QC_REPORT
 
 
 # ----------------------------------------------------
 # ETAPA 1: EXTRACCIÓN DE DATOS DE LA BASE DE DATOS
 # ----------------------------------------------------
-# ❗ ESTA REGLA AHORA INTENTA LA CONEXIÓN REAL A MYSQL
 rule db_extraction:
     output:
         "data/intermediate/variantes_extraidas.csv"
     conda:
-        "envs/db_extractor.yml" # Usando tu archivo db_extractor.yml
+        "envs/db_extractor.yml"
     shell:
         "python pipeline/modules/db_extraction.py {output}"
 
@@ -39,7 +42,6 @@ rule db_extraction:
 # ------------------------------------------------------------------
 # ETAPA 2A: PROCESAMIENTO Y DIVISIÓN DE DATOS (SOMÁTICO/GERMINAL)
 # ------------------------------------------------------------------
-# Esta regla reemplaza la antigua data_processing. Genera dos salidas CSV.
 rule data_processing_split:
     input:
         "data/intermediate/variantes_extraidas.csv"
@@ -47,9 +49,24 @@ rule data_processing_split:
         somatic_csv="data/processed/variantes_somaticas_limpias.csv",
         germline_csv="data/processed/variantes_germinales_limpias.csv"
     conda:
-        "envs/processor.yml" # Usando el nombre de tu archivo.
+        "envs/processor.yml"
     shell:
         "python pipeline/modules/data_processing.py {input} {output.somatic_csv} {output.germline_csv}"
+
+
+# --------------------------------------------------------------------
+# NUEVA REGLA DE QC DE METADATOS (SE EJECUTA EN PARALELO)
+# --------------------------------------------------------------------
+rule metadata_qc_report:
+    input:
+        "data/intermediate/variantes_extraidas.csv"
+    output:
+        html="data/results/qc/metadata_report.html",
+        errors_csv="data/results/qc/metadata_qc_errors.csv"
+    conda:
+        "envs/processor.yml" # Reutilizamos el entorno de Python/Pandas
+    shell:
+        "python pipeline/modules/metadata_qc.py {input} {output.html} {output.errors_csv}"
 
 
 # --------------------------------------------------------------------
@@ -61,7 +78,7 @@ rule vcf_conversion_somatic:
     output:
         "data/intermediate/somatic_raw.vcf"
     conda:
-        "envs/processor.yml" # Usando el nombre de tu archivo.
+        "envs/processor.yml"
     shell:
         "python pipeline/modules/vcf_conversion.py {input} {output}"
 
@@ -74,7 +91,7 @@ rule vcf_conversion_germline:
     output:
         "data/intermediate/germline_raw.vcf"
     conda:
-        "envs/processor.yml" # Usando el nombre de tu archivo.
+        "envs/processor.yml"
     shell:
         "python pipeline/modules/vcf_conversion.py {input} {output}"
 
@@ -82,7 +99,6 @@ rule vcf_conversion_germline:
 # ----------------------------------------------------
 # ETAPA 3A: NORMALIZACIÓN y COMPRESIÓN - SOMÁTICA
 # ----------------------------------------------------
-# Se comprime y se indexa el VCF para que esté listo.
 rule variant_normalization_somatic:
     input:
         "data/intermediate/somatic_raw.vcf"
@@ -101,7 +117,6 @@ bcftools index {output.vcf}
 # ----------------------------------------------------
 # ETAPA 3B: NORMALIZACIÓN y COMPRESIÓN - GERMINAL
 # ----------------------------------------------------
-# Se comprime y se indexa el VCF para que esté listo.
 rule variant_normalization_germline:
     input:
         "data/intermediate/germline_raw.vcf"
