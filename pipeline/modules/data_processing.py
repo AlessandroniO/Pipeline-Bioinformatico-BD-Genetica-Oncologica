@@ -1,85 +1,118 @@
 import sys
-import os
 import pandas as pd
-import numpy as np
+import os
+import re
 
 # =========================================================================
-# 1. FUNCIÓN PRINCIPAL DE PROCESAMIENTO
+# 1. FUNCIONES AUXILIARES
 # =========================================================================
-def process_and_split_data(input_csv_path, output_somatic_path, output_germline_path):
-    """
-    Lee el CSV extraído de la base de datos, limpia las cabeceras, 
-    normaliza el tipo de muestra y divide el DataFrame en somático y germinal.
-    
-    Args:
-        input_csv_path (str): Ruta al CSV extraído.
-        output_somatic_path (str): Ruta para guardar el CSV de variantes somáticas.
-        output_germline_path (str): Ruta para guardar el CSV de variantes germinales.
-    """
-    
-    # 1. Crear directorios de salida
-    os.makedirs(os.path.dirname(output_somatic_path), exist_ok=True)
 
+def infer_genomic_type(tipo_muestra):
+    """
+    Infiere el tipo de variante genómica (SOMATIC/GERMLINE) basándose
+    en la fuente física de la muestra proporcionada en el CSV de origen.
+    """
+    if pd.isna(tipo_muestra):
+        return 'UNKNOWN'
+    
+    # Limpieza y estandarización del texto para la inferencia
+    tipo_muestra_str = str(tipo_muestra).strip().upper()
+
+    # Si la muestra es Sangre (Blood), se asume que es la muestra de control.
+    if 'SANGRE' in tipo_muestra_str or 'BLOOD' in tipo_muestra_str:
+        return 'GERMLINE'
+    # Cualquier otra fuente (tejido, líquido, etc.) se asume tumoral.
+    elif 'TEJIDO' in tipo_muestra_str or 'LIQUIDO' in tipo_muestra_str or 'FLUID' in tipo_muestra_str or 'TISSUE' in tipo_muestra_str:
+        return 'SOMATIC'
+    else:
+        return 'UNKNOWN'
+
+# =========================================================================
+# 2. FUNCIÓN PRINCIPAL DE PROCESAMIENTO
+# =========================================================================
+
+def process_and_split_data(input_csv, output_somatic_csv, output_germline_csv):
+    """
+    Carga el CSV, realiza la limpieza, estandarización e inferencia del tipo
+    genómico, y divide los datos en archivos somáticos y germinales.
+    """
     try:
-        # 2. Leer los datos
-        print(f"INFO: Leyendo datos desde {input_csv_path}...")
-        df = pd.read_csv(input_csv_path)
-        print(f"INFO: Total de {len(df)} filas leídas.")
+        # 1. CARGA DE DATOS
+        df = pd.read_csv(input_csv)
+        print(f"INFO: Datos cargados. Filas iniciales: {len(df)}")
+
+        # 2. LIMPIEZA Y ESTANDARIZACIÓN DE DATOS
+        
+        # Rellenar valores nulos/vacíos en metadatos clave con 'DESCONOCIDO' o 0
+        # CRUCIAL: Usamos los nombres de columna cortos ('tipo_tumor', 'sexo', 'barrio', 'edad')
+        # ya que db_extraction.py se encarga de renombrarlos con alias.
+        
+        # Limpieza de metadatos del paciente
+        df['tipo_tumor'] = df['tipo_tumor'].fillna('DESCONOCIDO')
+        df['sexo'] = df['sexo'].fillna('DESCONOCIDO')
+        
+        # Corregir la edad: Si es nulo, poner 0 y convertir a entero.
+        df['edad'] = df['edad'].fillna(0).astype(int)
+        
+        # Corregir el barrio:
+        # ERROR CORREGIDO: Ahora usamos 'barrio' directamente, no el nombre largo.
+        df['barrio'] = df['barrio'].fillna('DESCONOCIDO') 
+
+        # Estandarización de la columna 'chrom'
+        df['chrom'] = df['chrom'].astype(str).str.replace('^chr', '', regex=True)
+        df['chrom'] = 'chr' + df['chrom']
+
+        # 3. INFERENCIA DEL TIPO GENÓMICO (SOMATIC/GERMLINE)
+        
+        # Creamos una nueva columna 'tipo_genomico' basada en la columna 'tipo_de_muestra'
+        df['tipo_genomico'] = df['tipo_de_muestra'].apply(infer_genomic_type)
+        
+        # Verificación de la división (opcional, pero útil)
+        somatic_count = (df['tipo_genomico'] == 'SOMATIC').sum()
+        germline_count = (df['tipo_genomico'] == 'GERMLINE').sum()
+        unknown_count = (df['tipo_genomico'] == 'UNKNOWN').sum()
+
+        print(f"INFO: Inferencia completada. Somáticas: {somatic_count}, Germinales: {germline_count}, Desconocidas: {unknown_count}")
+
+        # 4. DIVISIÓN Y EXPORTACIÓN
+        
+        # Creamos los sub-DataFrames para somático y germinal
+        df_somatic = df[df['tipo_genomico'] == 'SOMATIC']
+        df_germline = df[df['tipo_genomico'] == 'GERMLINE']
+        
+        # Crear directorios de salida si no existen
+        os.makedirs(os.path.dirname(output_somatic_csv), exist_ok=True)
+        
+        # Exportar los archivos limpios
+        df_somatic.to_csv(output_somatic_csv, index=False)
+        print(f"INFO: ✅ Datos Somáticos exportados a {output_somatic_csv} ({len(df_somatic)} filas)")
+        
+        df_germline.to_csv(output_germline_csv, index=False)
+        print(f"INFO: ✅ Datos Germinales exportados a {output_germline_csv} ({len(df_germline)} filas)")
 
     except FileNotFoundError:
-        print(f"❌ ERROR CRÍTICO: Archivo de entrada no encontrado en {input_csv_path}")
+        print(f"❌ ERROR: El archivo de entrada no se encontró: {input_csv}")
+        sys.exit(1)
+    except KeyError as e:
+        print(f"❌ ERROR CRÍTICO: Columna no encontrada. El archivo de entrada debe tener el formato correcto.")
+        print(f"COLUMNA FALTANTE: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"❌ ERROR CRÍTICO al leer el CSV: {e}")
+        print(f"❌ Error inesperado durante el procesamiento de datos: {e}")
         sys.exit(1)
 
-    # 3. CORRECCIÓN CRUCIAL: Normalizar todas las cabeceras a minúsculas
-    df.columns = df.columns.str.lower()
-    
-    # 4. Verificar la columna clave de división
-    key_col = 'tipo_de_muestra'
-    if key_col not in df.columns:
-        print(f"❌ ERROR CRÍTICO: La columna '{key_col}' no fue encontrada en los datos.")
-        print(f"Columnas encontradas: {list(df.columns)}")
-        print("Esto indica un fallo en la extracción (db_extraction.py).")
-        sys.exit(1)
-        
-    # 5. Normalizar los valores de la columna clave
-    # Esto asegura que "SOMATICO", "Somático" o "somático " se traten como "somatico"
-    df['muestra_lower'] = df[key_col].astype(str).str.strip().str.lower()
-    
-    # 6. Definir las categorías de división
-    # La extracción debe garantizar que solo existan estos tipos o se debe 
-    # añadir más lógica de limpieza.
-    SOMATIC_KEYWORDS = ['somatica', 'somatico', 'tumor']
-    GERMLINE_KEYWORDS = ['germinal', 'normal', 'sangre']
-    
-    # 7. Dividir los datos
-    
-    # Variables de salida
-    somatic_data = df[df['muestra_lower'].isin(SOMATIC_KEYWORDS)]
-    germline_data = df[df['muestra_lower'].isin(GERMLINE_KEYWORDS)]
-    
-    # 8. Guardar los archivos de salida
-    
-    # Guardar somáticas
-    somatic_data.drop(columns=['muestra_lower']).to_csv(output_somatic_path, index=False)
-    print(f"✅ Éxito: {len(somatic_data)} variantes somáticas guardadas en {output_somatic_path}")
-    
-    # Guardar germinales
-    germline_data.drop(columns=['muestra_lower']).to_csv(output_germline_path, index=False)
-    print(f"✅ Éxito: {len(germline_data)} variantes germinales guardadas en {output_germline_path}")
 
 # =========================================================================
-# 2. EJECUCIÓN
+# 3. EJECUCIÓN DEL SCRIPT
 # =========================================================================
+
 if __name__ == "__main__":
     if len(sys.argv) != 4:
         print("Uso: python data_processing.py <input_csv> <output_somatic_csv> <output_germline_csv>")
         sys.exit(1)
-    
+        
     input_csv = sys.argv[1]
-    output_somatic = sys.argv[2]
-    output_germline = sys.argv[3]
+    output_somatic_csv = sys.argv[2]
+    output_germline_csv = sys.argv[3]
     
-    process_and_split_data(input_csv, output_somatic, output_germline)
+    process_and_split_data(input_csv, output_somatic_csv, output_germline_csv)
