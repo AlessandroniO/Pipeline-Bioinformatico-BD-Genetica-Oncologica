@@ -28,9 +28,23 @@ rule all:
 
 
 # ----------------------------------------------------
+# ETAPA 0: ENRIQUECIMIENTO DE LA BASE DE DATOS (ETL)
+# ----------------------------------------------------
+rule db_enrichment:
+    input: "GRCh38_latest_clinvar.vcf.gz"
+    output: "data/intermediate/db_enriched.flag"
+    conda: "envs/db_enrichment.yml"
+    shell:
+        "python pipeline/modules/etl_clinvar_variantes.py && touch {output}"
+
+
+# ----------------------------------------------------
 # ETAPA 1: EXTRACCIÓN DE DATOS DE LA BASE DE DATOS
 # ----------------------------------------------------
 rule db_extraction:
+    input:
+        # Dependencia agregada: debe esperar a que la BD esté enriquecida
+        enriched_flag="data/intermediate/db_enriched.flag" 
     output:
         "data/intermediate/variantes_extraidas.csv"
     conda:

@@ -1,0 +1,10 @@
+name: db_enrichment
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pandas
+  - mysql-connector-python
+  - cyvcf2
+  - snakemake

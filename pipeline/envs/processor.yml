@@ -1,8 +1,15 @@
 name: processor
 channels:
   - conda-forge
+  - bioconda  # Necesario para cyvcf2
 dependencies:
   - python=3.10
-  - pandas
+  - pandas=2.2.2  # Aseguramos la versión de pandas
   - scikit-learn
   - numpy
+  - openpyxl
+  - pyyaml
+  - sqlalchemy
+  - pymysql  # Módulo de conexión a MySQL (Resuelve el ModuleNotFoundError)
+  - cyvcf2  # Módulo para leer VCF de ClinVar
+  - pip
