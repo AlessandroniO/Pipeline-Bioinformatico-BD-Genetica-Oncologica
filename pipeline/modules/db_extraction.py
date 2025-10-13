@@ -65,18 +65,21 @@ def fetch_data_and_export():
         if not conn.is_connected():
             raise mysql.connector.Error("No se pudo obtener una conexión válida del pool.")
         
-        # 2. CONSULTA SQL CORREGIDA: Cambio de origen de la columna de posición
+        # 2. CONSULTA SQL CORREGIDA: Agregamos 0.5 AS frec_alelica
         SQL_QUERY = """
         SELECT
             -- Campos VCF Requeridos por el pipeline
             ug.Cromosoma AS chrom,
-            v.Posicion AS pos, -- CRÍTICO: Se obtiene de la tabla Variantes (v.Posicion) ya que Ubicacion_genomica no contiene el campo numérico.
+            v.Posicion AS pos, 
             v.Id_variante AS id,
-            v.Alelo_referencia AS ref, -- CRÍTICO: REF
-            v.Alelo_alternativo AS alt, -- CRÍTICO: ALT
-            v.Calidad AS qual, -- CRÍTICO: Calidad
-            v.Filtro AS filter, -- CRÍTICO: Filtro
+            v.Alelo_referencia AS ref,
+            v.Alelo_alternativo AS alt,
+            v.Calidad AS qual,
+            v.Filtro AS filter,
             v.Tipo_variante AS tipo_variante,
+            
+            -- COLUMNA REQUERIDA POR EL SCRIPT DE CONVERSIÓN VCF (vcf_conversion.py)
+            0.5 AS frec_alelica, 
             
             -- Metadatos de la Muestra (para inferencia SOMATIC/GERMLINE)
             m.Tipo_de_muestra AS tipo_de_muestra,
@@ -85,9 +88,8 @@ def fetch_data_and_export():
             p.Sexo AS sexo,
             YEAR(CURDATE()) - YEAR(p.Fecha_nacimiento) AS edad,
             tt.Nombre AS tipo_tumor,
-            d_addr.Barrio AS barrio -- Correcto, se obtiene de la tabla Direccion (d_addr)
+            d_addr.Barrio AS barrio 
             
-
         FROM Variantes v
         -- Uniones para obtener metadatos y ubicación (manteniendo tu esquema de JOINs)
         LEFT JOIN Ubicacion_x_variante uxv
@@ -106,7 +108,7 @@ def fetch_data_and_export():
             ON ir.Id_muestra = m.Id_muestra
         LEFT JOIN Paciente p
             ON p.Id_paciente = m.Id_paciente
-        LEFT JOIN Direccion d_addr -- JOIN para obtener el BARRIO
+        LEFT JOIN Direccion d_addr
             ON p.Id_direccion = d_addr.Id_direccion
         LEFT JOIN Diagnostico_paciente d
             ON p.Id_paciente = d.Id_paciente
