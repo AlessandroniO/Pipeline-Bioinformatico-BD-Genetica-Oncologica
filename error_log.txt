@@ -212,3 +212,7 @@ GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 
 NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
 GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
 NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4

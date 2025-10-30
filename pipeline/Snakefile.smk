@@ -107,7 +107,7 @@ rule metadata_qc_report:
 # Variables de Ruta Corregidas (Tus archivos VCF y de intermedios)
 # ======================================================================
 # La ruta real de tu VCF de referencia
-CLINVAR_VCF_FILE = "data/raw/GRCh38_subset.vcf" 
+CLINVAR_VCF_FILE = "data/raw/GRCh38_latest_clinvar.vcf.gz.vcf" 
 
 # Archivo intermedio que guardará el VCF parseado a TSV
 PARSED_VCF_TSV = "data/intermediate/clinvar_grch38_parsed.tsv" 
