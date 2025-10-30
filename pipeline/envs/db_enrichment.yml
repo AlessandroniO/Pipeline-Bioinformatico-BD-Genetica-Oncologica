@@ -8,3 +8,4 @@ dependencies:
   - mysql-connector-python
   - cyvcf2
   - snakemake
+  - python-dotenv

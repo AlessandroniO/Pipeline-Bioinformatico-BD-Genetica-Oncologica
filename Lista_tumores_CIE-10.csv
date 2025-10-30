@@ -1,0 +1,137 @@
+Codigo,Ddescripcion
+C00,Tumor maligno del labio
+C01,Tumor maligno de la base de la lengua
+C02,Tumor maligno de otras partes y de las no especificadas de la lengua
+C03,Tumor maligno de la encia
+C04,Tumor maligno del piso de la boca
+C05,Tumor maligno del paladar
+C06,Tumor maligno de otras partes y de las no especificadas de la boca
+C07,Tumor maligno de la glandula paritida
+C08,Tumor maligno de otras glandulas salivales mayores y de las no especificadas
+C09,Tumor maligno de la amigdala
+C10,Tumor maligno de la orofaringe
+C11,Tumor maligno de la nasofaringe
+C12,Tumor maligno del seno piriforme
+C13,Tumor maligno de la hipofaringe
+C14,Tumor maligno de otros sitios y de los mal definidos del labio de la cavidad bucal y de la faringe
+C15,Tumor maligno del esofago
+C16,Tumor maligno del estomago
+C17,Tumor maligno del intestino delgado
+C18,Tumor maligno del colon
+C19,Tumor maligno de la union rectosigmoidea
+C20,Tumor maligno del recto
+C21,Tumor maligno del ano y del conducto anal
+C22,Tumor maligno del higado y de las vias biliares intrahepaticas
+C23,Tumor maligno de la vesicula biliar
+C24,Tumor maligno de otras partes y de las no especificadas de las vias biliares
+C25,Tumor maligno del pancreas
+C26,Tumor maligno de otros sitios y de los mal definidos de los organos digestivos
+C30,Tumor maligno de las fosas nasales y del oido medio
+C31,Tumor maligno de los senos paranasales
+C32,Tumor maligno de la laringe
+C33,Tumor maligno de la traquea
+C34,Tumor maligno de los bronquios y del pulmon
+C37,Tumor maligno del timo
+C38,"Tumor maligno del corazon, del mediastino y de la pleura"
+C39,Tumor maligno de otros sitios y de los mal definidos del sistema respiratorio y de los organos intratoracicos
+C40,Tumor maligno de los huesos y de los cartilagos articulares de los miembros
+C41,"Tumor maligno de los huesos y de los cartilagos articulares, de otros sitios y de sitios no especificados"
+C43,Melanoma maligno de la piel
+C44,Otros tumores malignos de la piel
+C45,Mesotelioma
+C46,Sarcoma de Kaposi
+C47,Tumor maligno de los nervios perifericos y del sistema nervioso autonomo
+C48,Tumor maligno del peritoneo y del retroperitoneo
+C49,Tumor maligno de otros tejidos conjuntivos y de tejidos blandos
+C50,Tumor maligno de la mama
+C51,Tumor maligno de la vulva
+C52,Tumor maligno de la vagina
+C53,Tumor maligno del cuello del utero
+C54,Tumor maligno del cuerpo del utero
+C55,"Tumor maligno del utero, parte no especificada"
+C56,Tumor maligno del ovario
+C57,Tumor maligno de otros organos genitales femeninos y de los no especificados
+C58,Tumor maligno de la placenta
+C60,Tumor maligno del pene
+C61,Tumor maligno de la prostata
+C62,Tumor maligno del testiculo
+C63,Tumor maligno de otros organos genitales masculinos y de los no especificados
+C64,"Tumor maligno del rinion, excepto de la pelvis renal"
+C65,Tumor maligno de la pelvis renal
+C66,Tumor maligno del ureter
+C67,Tumor maligno de la vejiga urinaria
+C68,Tumor maligno de otros organos urinarios y de los no especificados
+C69,Tumor maligno del ojo y sus anexos
+C70,Tumor maligno de las meninges
+C71,Tumor maligno del encefalo
+C72,"Tumor maligno de la medula espinal, de los nervios craneales y de otras partes del sistema nervioso central"
+C73,Tumor maligno de la glandula tiroides
+C74,Tumor maligno de la glandula suprarrenal
+C75,Tumor maligno de otras glandulas endocrinas y de estructuras afines
+C76,Tumor maligno de otros sitios y de sitios mal definidos
+C77,Tumor maligno secundario y el no especificado de los ganglios linfaticos
+C78,Tumor maligno secundario de los organos respiratorios y digestivos
+C79,Tumor maligno secundario de otros sitios
+C80,Tumor maligno de sitios no especificados
+C81,Enfermedad de Hodgkin
+C82,Linfoma no Hodgkin folicular [nodular]
+C83,Linfoma no Hodgkin difuso
+C84,"Linfoma de celulas T, periferico y cutaneo"
+C85,Linfoma no Hodgkin de otro tipo y el no especificado
+C88,Enfermedades inmunoproliferativas malignas
+C90,Mieloma multiple y tumores malignos de celulas plasmaticas
+C91,Leucemia linfoide
+C92,Leucemia mieloide
+C93,Leucemia monocitica
+C94,Otras leucemias de tipo celular especificado
+C95,Leucemia de celulas de tipo no especificado
+C96,"Otros tumores malignos y los no especificados del tejido linfatico, de losorganos hematopoyeticos y de tejidos afines"
+C97,Tumores malignos (primarios) de sitios multiples independientes
+D00,"Carcinoma in situ de la cavidad bucal, del esofago y del estomago"
+D01,Carcinoma in situ de otros organos digestivos y de los no especificados
+D02,Carcinoma in situ del sistema respiratorio y del oido medio
+D03,Melanoma in situ
+D04,Carcinoma in situ de la piel
+D05,Carcinoma in situ de la mama
+D06,Carcinoma in situ del cuello del utero
+D07,Carcinoma in situ de otros organos genitales y de los no especificados
+D09,Carcinoma in situ de otros sitios y de los no especificados
+D10,Tumor benigno de la boca y de la faringe
+D11,Tumor benigno de las glandulas salivales mayores
+D12,"Tumor benigno del colon, del recto,  del conducto anal y del ano"
+D13,Tumor benigno de otras partes y de las mal definidas del sistema digestivo
+D14,Tumor benigno del oido medio y del sistema respiratorio
+D15,Tumor benigno de otros organos intratoracicos y de los no especificados
+D16,Tumor benigno del hueso y del cartilago articular
+D17,Tumores benignos lipomatosos
+D18,Hemangioma y linfangioma de cualquier sitio
+D19,Tumores benignos del tejido mesotelial
+D20,Tumor benigno del tejido blando del peritoneo y del retroperitoneo
+D21,Otros tumores benignos del tejido conjuntivo y de los tejidos blandos
+D22,Nevo melanocitico
+D23,Otros tumores benignos de la piel
+D24,Tumor benigno de la mama
+D25,Leiomioma del utero
+D26,Otros tumores benignos del tuero
+D27,Tumor benigno del ovario
+D28,Tumor benigno de otros organos genitales femeninos y de los no especificados
+D29,Tumor benigno de los organos genitales masculinos
+D30,Tumor benigno de los organos urinarios
+D31,Tumor benigno del ojo y sus anexos
+D32,Tumores benignos de las meninges
+D33,Tumor benigno del encefalo y de otras partes del sistema nervioso central
+D34,Tumor benigno de la glandula tiroides
+D35,Tumor benigno de otras glandulas endocrinas y de las no especificadas
+D36,Tumor benigno de otros sitios y de los no especificados
+D37,Tumor de comportamiento incierto o desconocido de la cavidad bucal y de los organos digestivos
+D38,Tumor de comportamiento incierto o desconocido del oido medio y de los organos respiratorios e intratoracicos
+D39,Tumor de comportamiento incierto o desconocido de los organos genitales femeninos
+D40,Tumor de comportamiento incierto o desconocido de los organos genitales masculinos
+D41,Tumor de comportamiento incierto o desconocido de los organos urinarios
+D42,Tumor de comportamiento incierto o desconocido de las meninges
+D43,Tumor de comportamiento incierto o desconocido del encefalo y del sistema nervioso central
+D44,Tumor de comportamiento incierto o desconocido de las glandulas endocrinas
+D45,Policitemia vera
+D46,Sindromes mielodisplasicos
+D47,"Otros tumores de comportamiento incierto o desconocido del tejido linfatico, de los organos hematopoyeticos y de tejidos afines"
+D48,Tumor de comportamiento incierto o desconocido de otros sitios y de los no especificados

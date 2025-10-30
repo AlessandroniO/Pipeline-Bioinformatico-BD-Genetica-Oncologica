@@ -1,0 +1,6 @@
+Id_biomarcador,Nombre,Tipo
+1,Carga Mutacional Tumoral (TMB),Cuantitativo
+2,Inestabilidad de Microsatélites (MSI),Clasificación
+3,Pérdida de Heterozigosidad (POH),Cuantitativo
+4,Deleción CNV PTEN,CNV
+5,Mutación p.Gln572Ter MSH6,Mutación Puntual

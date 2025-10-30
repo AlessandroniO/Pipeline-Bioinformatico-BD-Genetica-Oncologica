@@ -1,116 +1,189 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import sys
 import pandas as pd
 import os
+import csv
 
-# ===============================================================
-# 1. Funciones auxiliares
-# ===============================================================
+# ----------------------------
+# Aux: Leer CSV con detección de separador y pruebas de encoding
+# ----------------------------
+def robust_read_csv(path, encodings=("utf-8","latin-1","cp1252")):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Archivo no encontrado: {path}")
+    for enc in encodings:
+        try:
+            with open(path, "r", encoding=enc, errors="replace") as fh:
+                sample = fh.read(8192)
+                try:
+                    dialect = csv.Sniffer().sniff(sample, delimiters=[",",";","\t","|"])
+                    sep = dialect.delimiter
+                except Exception:
+                    sep = ","
+            df = pd.read_csv(path, encoding=enc, sep=sep, low_memory=False)
+            print(f"INFO: Leído {path} con encoding={enc} sep='{sep}' shape={df.shape}")
+            return df
+        except Exception as e:
+            last_exc = e
+    raise last_exc
 
+# ----------------------------
+# CIE-10 loader
+# ----------------------------
 def cargar_diccionario_cie10(cie10_path):
-    """
-    Carga la tabla CIE-10 local (Lista_tumores_CIE-10.csv)
-    y genera un diccionario que mapea cada código a su tipo de mutación:
-    somática o germinal.
-    """
-    cie10_df = pd.read_csv(cie10_path)
-    cie10_df = cie10_df.rename(columns=str.lower)
-    
-    # Normalizamos los nombres esperados
-    cols = cie10_df.columns
-    codigo_col = [c for c in cols if "cie" in c or "codigo" in c][0]
-    tipo_col = [c for c in cols if "tipo" in c][0]
+    if not os.path.exists(cie10_path):
+        print(f"WARNING: Archivo CIE-10 no encontrado: {cie10_path}")
+        return {}
+    try:
+        cie10_df = robust_read_csv(cie10_path)
+        cie10_df.columns = cie10_df.columns.str.lower()
+        codigo_col = next((c for c in cie10_df.columns if "cie" in c or "codigo" in c), None)
+        tipo_col = next((c for c in cie10_df.columns if "tipo" in c), None)
+        if not codigo_col or not tipo_col:
+            print("WARNING: Columnas esperadas en CIE-10 no encontradas.")
+            return {}
+        cie10_map = dict(zip(cie10_df[codigo_col], cie10_df[tipo_col].astype(str).str.lower()))
+        print(f"INFO: Diccionario CIE-10 cargado ({len(cie10_map)} códigos).")
+        return cie10_map
+    except Exception as e:
+        print(f"ERROR al cargar CIE-10: {e}")
+        return {}
 
-    cie10_map = dict(zip(cie10_df[codigo_col], cie10_df[tipo_col].str.lower()))
-    print(f"INFO: Diccionario CIE-10 cargado ({len(cie10_map)} códigos reconocidos).")
-    return cie10_map
-
-
+# ----------------------------
+# Inferencia tipo mutacion
+# ----------------------------
 def inferir_tipo_mutacion(row, cie10_map):
-    """
-    Determina si una variante es somática o germinal según:
-      1. Tipo_de_muestra
-      2. Código CIE-10 (si disponible)
-      3. Fuente (ClinVar, COSMIC, DECIPHER, etc.)
-    """
-    tipo_muestra = str(row.get("Tipo_de_muestra", "")).lower()
-    cie10 = str(row.get("Codigo_cie10", "")).upper()
-    fuente = str(row.get("Fuente", "")).lower()
-
-    # --- Reglas jerárquicas ---
-    # 1. Según fuente externa
-    if "cosmic" in fuente:
+    tipo_muestra = str(row.get("tipo_de_muestra", "")).strip().lower()
+    tipo_tumor = str(row.get("tipo_tumor", "")).strip().lower()
+    mapeo_muestra = {
+        "sangre": "germinal",
+        "plasma": "germinal",
+        "suero": "germinal",
+        "liquido pleural": "somatica",
+        "tumor en parafina": "somatica",
+        "tumor": "somatica",
+    }
+    if tipo_muestra in mapeo_muestra:
+        return mapeo_muestra[tipo_muestra]
+    if tipo_tumor and tipo_tumor not in ["nan","desconocido",""]:
         return "somatica"
-    if "clinvar" in fuente or "decipher" in fuente or "spada" in fuente:
-        return "germinal"
-
-    # 2. Según tipo de muestra
-    if "tumor" in tipo_muestra or "biopsia" in tipo_muestra:
-        return "somatica"
-    if "sangre" in tipo_muestra or "leucocito" in tipo_muestra:
-        return "germinal"
-
-    # 3. Según CIE-10
-    if cie10 in cie10_map:
-        return cie10_map[cie10]
-
     return "desconocida"
 
-
-# ===============================================================
-# 2. Lógica principal
-# ===============================================================
-
+# ----------------------------
+# Main processing
+# ----------------------------
 def process_data():
-    if len(sys.argv) < 4:
-        print("Uso: python data_processing_split.py <input_csv> <output_dir> <cie10_file>")
+    if len(sys.argv) != 6:
+        print("Uso: python process_data.py <db_csv> <vcf_csv> <cie10_file> <somatic_out> <germline_out>")
         sys.exit(1)
 
-    input_csv = sys.argv[1]
-    output_dir = sys.argv[2]
-    cie10_file = sys.argv[3]
+    db_path, vcf_path, cie10_path, somatic_out, germline_out = sys.argv[1:]
 
-    print(f"INFO: Leyendo datos de: {input_csv}")
+    # Cargar CSVs robustamente
     try:
-        df = pd.read_csv(input_csv)
+        df_db = robust_read_csv(db_path)
+        df_vcf = robust_read_csv(vcf_path)
     except Exception as e:
-        print(f"❌ ERROR al leer el archivo CSV: {e}")
+        print(f"❌ ERROR al leer CSVs: {e}")
         sys.exit(1)
 
-    initial_count = len(df)
-    print(f"INFO: {initial_count} filas iniciales cargadas.")
+    df_db.columns = df_db.columns.str.lower()
+    df_vcf.columns = df_vcf.columns.str.lower()
+    print(f"INFO: Filas BD={len(df_db)} | Filas VCF={len(df_vcf)}")
 
-    # --- Limpieza básica ---
-    df = df.dropna(subset=["Id_muestra"], how="all")
-    df["Tipo_de_muestra"] = df.get("Tipo_de_muestra", "").fillna("Desconocida")
+    # QC columnas y nulos
+    os.makedirs("data/results/qc", exist_ok=True)
+    pd.DataFrame({"columns_db": df_db.columns}).to_csv("data/results/qc/db_columns.csv", index=False)
+    pd.DataFrame({"columns_vcf": df_vcf.columns}).to_csv("data/results/qc/vcf_columns.csv", index=False)
+    df_db.isna().sum().to_frame("n_missing").to_csv("data/results/qc/db_missing_counts.csv")
+    df_vcf.isna().sum().to_frame("n_missing").to_csv("data/results/qc/vcf_missing_counts.csv")
 
-    # --- Cargar diccionario CIE-10 ---
-    cie10_map = cargar_diccionario_cie10(cie10_file)
+    # --------------------- MERGE ----------------------
+    merge_key = ['chrom', 'pos', 'ref', 'alt']
+    for key in merge_key:
+        if key not in df_db.columns:
+            df_db[key] = pd.NA
+        if key not in df_vcf.columns:
+            df_vcf[key] = pd.NA
 
-    # --- Inferir tipo de mutación ---
-    df["Tipo_mutacion"] = df.apply(lambda x: inferir_tipo_mutacion(x, cie10_map), axis=1)
+    # Renombrar columnas VCF para evitar colisiones
+    df_vcf = df_vcf.rename(columns={
+        'qual':'vcf_qual','filter':'vcf_filter','id':'vcf_id','tipo_variante':'vcf_tipo_variante'
+    })
 
-    somatic_df = df[df["Tipo_mutacion"] == "somatica"]
-    germline_df = df[df["Tipo_mutacion"] == "germinal"]
-    unknown_df = df[df["Tipo_mutacion"] == "desconocida"]
+    # Merge left: mantener BD y agregar info ClinVar
+    df_merged = pd.merge(df_db, df_vcf, on=merge_key, how='left')
 
-    print(f"INFO: Somáticas: {len(somatic_df)} | Germinales: {len(germline_df)} | Desconocidas: {len(unknown_df)}")
+    # Rellenar campos críticos desde VCF si faltan
+    fill_map = {
+        'qual':'vcf_qual',
+        'filter':'vcf_filter',
+        'id':'vcf_id',
+        'tipo_variante':'vcf_tipo_variante'
+    }
+    for target, source in fill_map.items():
+        if target in df_merged.columns and source in df_merged.columns:
+            df_merged[target] = df_merged[target].fillna(df_merged[source])
 
-    # --- Exportar resultados ---
-    os.makedirs(output_dir, exist_ok=True)
+    # Eliminar columnas auxiliares
+    drop_cols = ['vcf_qual','vcf_filter','vcf_id','vcf_tipo_variante']
+    df_merged.drop(columns=[c for c in drop_cols if c in df_merged.columns], inplace=True)
 
-    somatic_out = os.path.join(output_dir, "variantes_somaticas_limpias.csv")
-    germline_out = os.path.join(output_dir, "variantes_germinales_limpias.csv")
-    unknown_out = os.path.join(output_dir, "variantes_tipo_desconocido.csv")
+    # --------------------- CLASIFICACIÓN ----------------------
+    cie10_map = cargar_diccionario_cie10(cie10_path)
+    df_merged["tipo_mutacion"] = df_merged.apply(lambda x: inferir_tipo_mutacion(x, cie10_map), axis=1)
 
+    # --------------------- CONTROL DE CALIDAD ----------------------
+    qc_path = "data/results/qc/extraction_nulls.csv"
+    df_merged["flag_null_qc"] = False
+    if os.path.exists(qc_path):
+        try:
+            qc_df = robust_read_csv(qc_path)
+            qc_df.columns = qc_df.columns.str.lower()
+            qc_rows = df_merged.merge(qc_df, on=merge_key, how='inner')
+            df_merged.loc[df_merged.index.isin(qc_rows.index), "flag_null_qc"] = True
+            print(f"QC: {qc_rows.shape[0]} filas marcadas flag_null_qc=True")
+        except Exception as e:
+            print(f"ERROR QC integration: {e}")
+
+    # --------------------- DIVISIÓN ----------------------
+    somatic_df = df_merged[df_merged["tipo_mutacion"]=="somatica"]
+    germline_df = df_merged[df_merged["tipo_mutacion"]=="germinal"]
+
+    os.makedirs(os.path.dirname(somatic_out) or ".", exist_ok=True)
     somatic_df.to_csv(somatic_out, index=False)
     germline_df.to_csv(germline_out, index=False)
-    unknown_df.to_csv(unknown_out, index=False)
 
-    print(f"✅ Exportados:\n  - {somatic_out}\n  - {germline_out}\n  - {unknown_out}")
+    # --------------------- RESUMEN QC ----------------------
+    summary_list = []
+    for tipo in ["somatica","germinal","desconocida"]:
+        subset = df_merged[df_merged["tipo_mutacion"]==tipo]
+        if subset.empty:
+            continue
+        total = len(subset)
+        flagged = int(subset["flag_null_qc"].sum())
+        perc_flagged = round(flagged/total*100,2) if total>0 else 0.0
+        qc_status = "Revisión" if perc_flagged>5 else "OK"
+        mean_qual = round(subset["qual"].mean(skipna=True),2) if "qual" in subset else None
+        mean_frec = round(subset["frec_alelica"].mean(skipna=True),4) if "frec_alelica" in subset else None
+        summary_list.append({
+            "Tipo_mutacion":tipo,
+            "Flagged":flagged,
+            "Total":total,
+            "Porcentaje_Flagged":perc_flagged,
+            "Media_QUAL":mean_qual,
+            "Frecuencia_Alelica_Promedio":mean_frec,
+            "QC_Status":qc_status
+        })
 
-# ===============================================================
-# 3. Ejecución directa
-# ===============================================================
+    qc_summary = pd.DataFrame(summary_list)
+    qc_summary_path = "data/results/qc/qc_summary.csv"
+    os.makedirs(os.path.dirname(qc_summary_path) or ".", exist_ok=True)
+    qc_summary.to_csv(qc_summary_path, index=False)
+
+    print(f"✅ Exportados: Somáticas={len(somatic_df)} -> {somatic_out}, Germinales={len(germline_df)} -> {germline_out}")
+    print(f"📊 Resumen QC: {qc_summary_path}")
 
 if __name__ == "__main__":
     process_data()

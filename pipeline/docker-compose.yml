@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. Servicio de Base de Datos MySQL (El "Servidor Viejo")
+  mysql_db:
+    image: mysql:8.0 # Usa la versión que usabas antes
+    container_name: bioinfo_mysql_db
+    environment:
+      # Usa las credenciales de tu archivo .env
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # Establecer la zona horaria para evitar advertencias y asegurar consistencia
+      TZ: America/Argentina/Cordoba 
+    volumes:
+      # Monta un volumen para persistir los datos de la DB
+      - mysql_data:/var/lib/mysql 
+      # 🚨 Monta la carpeta 'data_csv' en tu host para que MySQL pueda ver los archivos
+      - ./data_csv:/var/lib/mysql-files 
+    ports:
+      # Mapea el puerto 3307 a tu host para que MySQL Workbench pueda conectarse
+      - "3307:3306" 
+    networks:
+      - bioinfo_network
+
+  # 2. Servicio de Pipeline Snakemake (Tu entorno de trabajo)
+  bioinfo_pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: snakemake_pipeline
+    volumes:
+      - .:/app # Monta todo el directorio de trabajo
+    command: "tail -f /dev/null" # Mantiene el contenedor vivo
+    networks:
+      - bioinfo_network
+    depends_on:
+      - mysql_db # Asegura que la DB inicie primero
+      
+# Definición de Volúmenes y Redes
+volumes:
+  mysql_data:
+
+networks:
+  bioinfo_network:
+    driver: bridge

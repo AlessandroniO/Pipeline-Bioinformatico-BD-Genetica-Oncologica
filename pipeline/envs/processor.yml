@@ -1,15 +1,21 @@
 name: processor
 channels:
   - conda-forge
-  - bioconda  # Necesario para cyvcf2
+  - bioconda
+  - defaults
 dependencies:
   - python=3.10
-  - pandas=2.2.2  # Aseguramos la versión de pandas
+  - pandas=2.2.2
   - scikit-learn
   - numpy
   - openpyxl
   - pyyaml
   - sqlalchemy
-  - pymysql  # Módulo de conexión a MySQL (Resuelve el ModuleNotFoundError)
-  - cyvcf2  # Módulo para leer VCF de ClinVar
+  - pymysql
+  - cyvcf2
+  # 1. Necesitas el programa 'pip' como dependencia de Conda:
   - pip
+  
+  # 2. El listado de paquetes PIP debe ir bajo la clave 'pip:'
+  - pip:
+    - requests

@@ -1,0 +1,214 @@
+⚠️ Mutalyzer devolvió 422 para NM_177438.3
+⚠️ Mutalyzer devolvió 422 para NM_177438.3
+⚠️ Mutalyzer devolvió 422 para NM_015450.3
+⚠️ Mutalyzer devolvió 422 para NM_015450.3
+⚠️ Mutalyzer devolvió 422 para NM_000143.4
+⚠️ Mutalyzer devolvió 422 para NM_000143.4
+⚠️ Mutalyzer devolvió 404 para GRCh37/hg19 17p13.3-11.2
+⚠️ Mutalyzer devolvió 404 para GRCh37/hg19 17p13.3-11.2
+⚠️ Mutalyzer devolvió 422 para NM_000455.5
+⚠️ Mutalyzer devolvió 422 para NM_000455.5
+⚠️ Mutalyzer devolvió 422 para NM_005233.6
+⚠️ Mutalyzer devolvió 422 para NM_005233.6
+⚠️ Mutalyzer devolvió 422 para NM_001141980.3
+⚠️ Mutalyzer devolvió 422 para NM_001141980.3
+⚠️ Mutalyzer devolvió 422 para NM_001130145.3
+⚠️ Mutalyzer devolvió 422 para NM_001130145.3
+⚠️ Mutalyzer devolvió 422 para NM_006361.6
+⚠️ Mutalyzer devolvió 422 para NM_006361.6
+⚠️ Mutalyzer devolvió 404 para GRCh37/hg19 11p15.1-12
+⚠️ Mutalyzer devolvió 404 para GRCh37/hg19 11p15.1-12
+⚠️ Mutalyzer devolvió 422 para NM_139076.3
+⚠️ Mutalyzer devolvió 422 para NM_139076.3
+⚠️ Mutalyzer devolvió 422 para NM_177417.3
+⚠️ Mutalyzer devolvió 422 para NM_177417.3
+⚠️ Mutalyzer devolvió 422 para NM_000400.4
+⚠️ Mutalyzer devolvió 422 para NM_000400.4
+⚠️ Mutalyzer devolvió 422 para NM_003921.5
+⚠️ Mutalyzer devolvió 422 para NM_003921.5
+⚠️ Mutalyzer devolvió 422 para NM_002524.5
+⚠️ Mutalyzer devolvió 422 para NM_002524.5
+⚠️ Mutalyzer devolvió 422 para NM_004936.4
+⚠️ Mutalyzer devolvió 422 para NM_004936.4
+⚠️ Mutalyzer devolvió 422 para NM_002878.4
+⚠️ Mutalyzer devolvió 422 para NM_002878.4
+⚠️ Mutalyzer devolvió 422 para NM_018130.3
+⚠️ Mutalyzer devolvió 422 para NM_018130.3
+⚠️ Mutalyzer devolvió 422 para NM_003200.5
+⚠️ Mutalyzer devolvió 422 para NM_003200.5
+⚠️ Mutalyzer devolvió 422 para NM_002691.4
+⚠️ Mutalyzer devolvió 422 para NM_002691.4
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	NM_177438.3: char 12: end of input
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	NM_015450.3: char 12: end of input
+NM_000143.4(FH):c.531C>T (p.Pro177=)	NM_000143.4: char 12: end of input
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	GRCh37/hg19 17p13.3-11.2: char 6: expected one of '(', '-', '.', ':', '_', or a letter or digit
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	NM_000455.5: char 12: end of input
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	NM_005233.6: char 12: end of input
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	NM_001141980.3: char 15: end of input
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	NM_001130145.3: char 15: end of input
+NM_006361.6(HOXB13):c.*8C>A	NM_006361.6: char 12: end of input
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	GRCh37/hg19 11p15.1-12: char 6: expected one of '(', '-', '.', ':', '_', or a letter or digit
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	NM_139076.3: char 12: end of input
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	NM_177417.3: char 12: end of input
+NM_000400.4(ERCC2):c.6-8G>T	NM_000400.4: char 12: end of input
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	NM_003921.5: char 12: end of input
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	NM_002524.5: char 12: end of input
+NM_004936.4(CDKN2B):c.156+3_156+6del	NM_004936.4: char 12: end of input
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	NM_002878.4: char 12: end of input
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	NM_018130.3: char 12: end of input
+NM_003200.5(TCF3):c.1167+1G>A	NM_003200.5: char 12: end of input
+NM_002691.4(POLD1):c.1686+7_1686+22dup	NM_002691.4: char 12: end of input
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	NM_177438.3: char 12: end of input
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	NM_015450.3: char 12: end of input
+NM_000143.4(FH):c.531C>T (p.Pro177=)	NM_000143.4: char 12: end of input
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	GRCh37/hg19 17p13.3-11.2: char 6: expected one of '(', '-', '.', ':', '_', or a letter or digit
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	NM_000455.5: char 12: end of input
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	NM_005233.6: char 12: end of input
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	NM_001141980.3: char 15: end of input
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	NM_001130145.3: char 15: end of input
+NM_006361.6(HOXB13):c.*8C>A	NM_006361.6: char 12: end of input
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	GRCh37/hg19 11p15.1-12: char 6: expected one of '(', '-', '.', ':', '_', or a letter or digit
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	NM_139076.3: char 12: end of input
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	NM_177417.3: char 12: end of input
+NM_000400.4(ERCC2):c.6-8G>T	NM_000400.4: char 12: end of input
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	NM_003921.5: char 12: end of input
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	NM_002524.5: char 12: end of input
+NM_004936.4(CDKN2B):c.156+3_156+6del	NM_004936.4: char 12: end of input
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	NM_002878.4: char 12: end of input
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	NM_018130.3: char 12: end of input
+NM_003200.5(TCF3):c.1167+1G>A	NM_003200.5: char 12: end of input
+NM_002691.4(POLD1):c.1686+7_1686+22dup	NM_002691.4: char 12: end of input
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	'DictRow' object has no attribute 'alt_ac'
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	'DictRow' object has no attribute 'alt_ac'
+NM_000143.4(FH):c.531C>T (p.Pro177=)	'DictRow' object has no attribute 'alt_ac'
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_…:c.… de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	'DictRow' object has no attribute 'alt_ac'
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	'DictRow' object has no attribute 'alt_ac'
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	'DictRow' object has no attribute 'alt_ac'
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	'DictRow' object has no attribute 'alt_ac'
+NM_006361.6(HOXB13):c.*8C>A	'DictRow' object has no attribute 'alt_ac'
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_…:c.… de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	'DictRow' object has no attribute 'alt_ac'
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	'DictRow' object has no attribute 'alt_ac'
+NM_000400.4(ERCC2):c.6-8G>T	'DictRow' object has no attribute 'alt_ac'
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	generator didn't stop after throw()
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	'DictRow' object has no attribute 'alt_ac'
+NM_004936.4(CDKN2B):c.156+3_156+6del	'DictRow' object has no attribute 'alt_ac'
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	'DictRow' object has no attribute 'alt_ac'
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	'DictRow' object has no attribute 'alt_ac'
+NM_003200.5(TCF3):c.1167+1G>A	'DictRow' object has no attribute 'alt_ac'
+NM_002691.4(POLD1):c.1686+7_1686+22dup	'DictRow' object has no attribute 'alt_ac'
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	'DictRow' object has no attribute 'alt_ac'
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	'DictRow' object has no attribute 'alt_ac'
+NM_000143.4(FH):c.531C>T (p.Pro177=)	'DictRow' object has no attribute 'alt_ac'
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_…:c.… de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	'DictRow' object has no attribute 'alt_ac'
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	'DictRow' object has no attribute 'alt_ac'
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	'DictRow' object has no attribute 'alt_ac'
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	'DictRow' object has no attribute 'alt_ac'
+NM_006361.6(HOXB13):c.*8C>A	'DictRow' object has no attribute 'alt_ac'
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_…:c.… de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	'DictRow' object has no attribute 'alt_ac'
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	'DictRow' object has no attribute 'alt_ac'
+NM_000400.4(ERCC2):c.6-8G>T	'DictRow' object has no attribute 'alt_ac'
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	generator didn't stop after throw()
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	'DictRow' object has no attribute 'alt_ac'
+NM_004936.4(CDKN2B):c.156+3_156+6del	'DictRow' object has no attribute 'alt_ac'
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	'DictRow' object has no attribute 'alt_ac'
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	'DictRow' object has no attribute 'alt_ac'
+NM_003200.5(TCF3):c.1167+1G>A	'DictRow' object has no attribute 'alt_ac'
+NM_002691.4(POLD1):c.1686+7_1686+22dup	'DictRow' object has no attribute 'alt_ac'
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	'SeqFetcher' object has no attribute 'get_seq'
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	'SeqFetcher' object has no attribute 'get_seq'
+NM_000143.4(FH):c.531C>T (p.Pro177=)	'SeqFetcher' object has no attribute 'get_seq'
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_:c. a partir de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	'SeqFetcher' object has no attribute 'get_seq'
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	'SeqFetcher' object has no attribute 'get_seq'
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	'SeqFetcher' object has no attribute 'get_seq'
+NM_006361.6(HOXB13):c.*8C>A	'SeqFetcher' object has no attribute 'get_seq'
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	'SeqFetcher' object has no attribute 'get_seq'
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_000400.4(ERCC2):c.6-8G>T	'SeqFetcher' object has no attribute 'get_seq'
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	'SeqFetcher' object has no attribute 'get_seq'
+NM_004936.4(CDKN2B):c.156+3_156+6del	'SeqFetcher' object has no attribute 'get_seq'
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	'SeqFetcher' object has no attribute 'get_seq'
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	'SeqFetcher' object has no attribute 'get_seq'
+NM_003200.5(TCF3):c.1167+1G>A	'SeqFetcher' object has no attribute 'get_seq'
+NM_002691.4(POLD1):c.1686+7_1686+22dup	'SeqFetcher' object has no attribute 'get_seq'
+NM_177438.3(DICER1):c.5540C>T (p.Ala1847Val)	'SeqFetcher' object has no attribute 'get_seq'
+NM_015450.3(POT1):c.1626_1629del (p.Phe542fs)	'SeqFetcher' object has no attribute 'get_seq'
+NM_000143.4(FH):c.531C>T (p.Pro177=)	'SeqFetcher' object has no attribute 'get_seq'
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_:c. a partir de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	'SeqFetcher' object has no attribute 'get_seq'
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	'SeqFetcher' object has no attribute 'get_seq'
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	'SeqFetcher' object has no attribute 'get_seq'
+NM_006361.6(HOXB13):c.*8C>A	'SeqFetcher' object has no attribute 'get_seq'
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	'SeqFetcher' object has no attribute 'get_seq'
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_000400.4(ERCC2):c.6-8G>T	'SeqFetcher' object has no attribute 'get_seq'
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	'SeqFetcher' object has no attribute 'get_seq'
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	'SeqFetcher' object has no attribute 'get_seq'
+NM_004936.4(CDKN2B):c.156+3_156+6del	'SeqFetcher' object has no attribute 'get_seq'
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	'SeqFetcher' object has no attribute 'get_seq'
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	'SeqFetcher' object has no attribute 'get_seq'
+NM_003200.5(TCF3):c.1167+1G>A	'SeqFetcher' object has no attribute 'get_seq'
+NM_002691.4(POLD1):c.1686+7_1686+22dup	'SeqFetcher' object has no attribute 'get_seq'
+NM_000143.4(FH):c.531C>T (p.Pro177=)	could not translate host name "uta.biocommons.org" to address: Name or service not known
+
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_:c. a partir de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	connection already closed
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	connection already closed
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	connection already closed
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	connection already closed
+NM_006361.6(HOXB13):c.*8C>A	connection already closed
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	connection already closed
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	connection already closed
+NM_000400.4(ERCC2):c.6-8G>T	connection already closed
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	connection already closed
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	connection already closed
+NM_004936.4(CDKN2B):c.156+3_156+6del	connection already closed
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	connection already closed
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	connection already closed
+NM_003200.5(TCF3):c.1167+1G>A	connection already closed
+NM_002691.4(POLD1):c.1686+7_1686+22dup	connection already closed
+NM_000143.4(FH):c.531C>T (p.Pro177=)	could not translate host name "uta.biocommons.org" to address: Name or service not known
+
+GRCh37/hg19 17p13.3-11.2(chr17:525-21510992)x3	No pude extraer NM_:c. a partir de 'variante'
+NM_000455.5(STK11):c.1095C>T (p.Asp365=)	connection already closed
+NM_005233.6(EPHA3):c.266G>A (p.Arg89Lys)	connection already closed
+NM_001141980.3(TP53BP1):c.1662A>T (p.Glu554Asp)	connection already closed
+NM_001130145.3(YAP1):c.739dup (p.Tyr247fs)	connection already closed
+NM_006361.6(HOXB13):c.*8C>A	connection already closed
+GRCh37/hg19 11p15.1-12(chr11:17120358-41424289)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_139076.3(ABRAXAS1):c.637C>T (p.His213Tyr)	connection already closed
+NM_177417.3(KLC3):c.1473T>G (p.Pro491=)	connection already closed
+NM_000400.4(ERCC2):c.6-8G>T	connection already closed
+NM_003921.5(BCL10):c.54G>A (p.Lys18=)	connection already closed
+NM_002524.5(NRAS):c.254A>G (p.Asn85Ser)	connection already closed
+NM_004936.4(CDKN2B):c.156+3_156+6del	connection already closed
+NM_002878.4(RAD51D):c.334G>C (p.Gly112Arg)	connection already closed
+NM_018130.3(SHQ1):c.1076del (p.Val358_Leu359insTer	connection already closed
+NM_003200.5(TCF3):c.1167+1G>A	connection already closed
+NM_002691.4(POLD1):c.1686+7_1686+22dup	connection already closed
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
+GRCh37/hg19 2q13(chr2:111335152-113127204)x1	No pude extraer NM_:c. a partir de 'variante'
+NM_020998.4(MST1):c.2126C>T (p.Thr709Met)	Sin opciones de mapeo para NM_020998.4
