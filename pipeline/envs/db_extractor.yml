@@ -6,3 +6,6 @@ dependencies:
   - python=3.10
   - pandas
   - mysql-connector-python
+  - sqlalchemy=2.0.30
+  - python-dotenv 
+  - pip

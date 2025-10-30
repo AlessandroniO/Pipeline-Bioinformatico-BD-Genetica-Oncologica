@@ -126,3 +126,28 @@ multiqc_report.html
 *.tmp
 *.temp
 
+# ===========================
+# Entornos locales / runtime
+# ===========================
+venv*/
+venv312/
+.env
+*.env
+
+# Volúmenes y datos de bases locales (MySQL/MariaDB, Docker)
+mysql_data/
+mysql_data/*
+*.sock
+*.pid
+
+# Archivos generados por contenedores / docker-compose
+/mysql_data/
+/logs/
+/tmp/
+
+# Resultados derivados del pipeline (no fuente)
+data/intermediate/
+data/results/
+data/results/*
+data/results/qc/
+data/results/qc/*
