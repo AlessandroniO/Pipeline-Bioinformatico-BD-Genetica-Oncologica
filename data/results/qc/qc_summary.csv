@@ -1,0 +1,4 @@
+Tipo_mutacion,No_Flagged,Flagged,Total,Porcentaje_Flagged,Media_QUAL,Frecuencia_Alelica_Promedio,QC_Status
+somatica,111270,0,111270,0.0,,,OK
+germinal,111870,0,111870,0.0,,,OK
+desconocida,120029,0,120029,0.0,,0.2678,OK
