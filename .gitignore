@@ -62,3 +62,40 @@ venv*/
 # results/**/*.png
 # results/**/*.pdf
 
+# ===========================
+# Archivos de reportes y figuras
+# ===========================
+*.html
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.tiff
+*.eps
+
+# ===========================
+# Archivos intermedios de pipelines
+# ===========================
+*.intermediate
+*.tmp
+*.temp
+
+# ===========================
+# Entornos locales / runtime
+# ===========================
+venv*/
+venv312/
+*.env
+
+# Volúmenes y datos de bases locales (MySQL/MariaDB, Docker)
+mysql_data/
+mysql_data/*
+*.sock
+*.pid
+
+# Archivos generados por contenedores / docker-compose
+/mysql_data/
+/logs/
+/tmp/
+
