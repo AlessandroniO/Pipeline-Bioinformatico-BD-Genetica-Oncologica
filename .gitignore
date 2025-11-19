@@ -99,3 +99,7 @@ mysql_data/*
 /logs/
 /tmp/
 
+# Archivos pesados que NO van a GitHub
+data/intermediate/clinvar_grch38_parsed.tsv
+data/intermediate/variantes_somaticas_API_anotadas.csv
+data/intermediate/variantes_germinales_API_anotadas.csv
