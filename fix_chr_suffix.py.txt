@@ -1,0 +1,20 @@
+# scripts/fix_chr_suffix.py
+import re, os, sys
+
+# Permite pasar el archivo por argumento; si no, usa el germline por defecto
+inp = sys.argv[1] if len(sys.argv) > 1 else r"data/processed/germline.cohort.vcf"
+tmp = inp + ".fixed_tmp"
+
+with open(inp, "r", encoding="utf-8") as fin, open(tmp, "w", encoding="utf-8") as fout:
+    for line in fin:
+        if line.startswith("#"):
+            fout.write(line)
+            continue
+        parts = line.rstrip("\n").split("\t")
+        if parts:
+            # chrN.0  ->  chrN   (N puede ser 1..22,X,Y,MT)
+            parts[0] = re.sub(r"^chr([0-9XYMT]+)\.0$", r"chr\1", parts[0], flags=re.IGNORECASE)
+        fout.write("\t".join(parts) + "\n")
+
+os.replace(tmp, inp)
+print("[OK] Limpieza chrN.0 -> chrN aplicada a:", inp)
