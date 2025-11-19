@@ -62,3 +62,9 @@ venv*/
 # results/**/*.png
 # results/**/*.pdf
 
+# Archivos grandes / bases de datos locales
+Cosmic_GenomeScreensMutant_Tsv_v102_GRCh38.tar
+Cosmic_GenomeScreensMutant_Tsv_v102_GRCh38/
+GRCh38_latest_clinvar.vcf.gz.vcf
+GRCh38_subset.vcf
+
