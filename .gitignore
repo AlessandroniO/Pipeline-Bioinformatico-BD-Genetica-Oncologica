@@ -1,10 +1,17 @@
 # ===========================
-# Directorios de datos
+# Directorios pesados / artefactos
 # ===========================
-data/raw/*
-data/processed/*
-results/*
-logs/*
+data/
+results/
+logs/
+.snakemake/
+.vep/
+vep_cache/
+mysql_data/
+
+# Si querés mantener un placeholder:
+# !data/.gitkeep
+# !results/.gitkeep
 
 # ===========================
 # Archivos temporales y de logs
@@ -15,7 +22,6 @@ logs/*
 *.bak
 *.swp
 *.swo
-*.intermediate
 *.tmpdir
 
 # ===========================
@@ -25,62 +31,21 @@ logs/*
 Thumbs.db
 
 # ===========================
-# Directorios y archivos de Snakemake
+# Notebooks y checkpoints
 # ===========================
-.snakemake/
-*.snakemake
-*.smk~
+.ipynb_checkpoints/
+*.nbconvert.ipynb
 
 # ===========================
-# Secuencias y alineamientos
+# Entornos / secretos
 # ===========================
-*.fastq
-*.fastq.gz
-*.fq
-*.fq.gz
-*.sam
-*.bam
-*.bai
-*.cram
-*.crai
-*.bed
-*.bed.gz
-*.bedgraph
-*.wig
-*.wig.gz
-*.gff
-*.gff3
-*.gtf
-*.fa
-*.fa.gz
-*.fasta
-*.fasta.gz
-*.fai
-*.dict
+venv*/
+.env
+*.env
 
 # ===========================
-# Archivos de variantes
-# ===========================
-*.vcf
-*.vcf.gz
-*.bcf
-*.bcf.csi
-*.gvcf
-*.gvcf.gz
-*.vcf.idx
-
-# ===========================
-# Caché de VEP y anotaciones
-# ===========================
-.vep/
-vep_cache/
-*.lof
-*.vep_cache/
-*.vep_tmp/
-
-# ===========================
-# Índices de referencia y aligners
-# ===========================
+# Índices / aligners (si aparecieran fuera de data/ y results/)
+# (si solo viven en data/ o results/, ya quedan ignorados por arriba)
 *.idx
 *.bt2
 *.bwt
@@ -90,64 +55,13 @@ vep_cache/
 *.sa
 *.dict
 *.fai
-*.starIndex/
-*.bowtie_index/
-*.bwa_index/
 
 # ===========================
-# Resultados de calidad de secuencias
-# ===========================
-fastqc_report.html
-fastqc.zip
-multiqc_report.html
-
-# ===========================
-# Notebooks y checkpoints
-# ===========================
-.ipynb_checkpoints/
-*.nbconvert.ipynb
-
-# ===========================
-# Archivos de reportes y figuras
-# ===========================
-*.html
-*.pdf
-*.png
-*.jpg
-*.jpeg
-*.svg
-*.tiff
-*.eps
-
-# ===========================
-# Archivos intermedios de pipelines
-# ===========================
-*.intermediate
-*.tmp
-*.temp
-
-# ===========================
-# Entornos locales / runtime
-# ===========================
-venv*/
-venv312/
-.env
-*.env
-
-# Volúmenes y datos de bases locales (MySQL/MariaDB, Docker)
-mysql_data/
-mysql_data/*
-*.sock
-*.pid
-
-# Archivos generados por contenedores / docker-compose
-/mysql_data/
-/logs/
-/tmp/
-
-# Resultados derivados del pipeline (no fuente)
-data/intermediate/
-data/results/
-data/results/*
-data/results/qc/
-data/results/qc/*
+# ¡OJO!: No ignoramos imágenes/PDF globalmente
+# (para poder versionar figuras y reportes en docs/)
+# Si realmente querés ignorarlas solo en data/ y results/,
+# usá (opcional):
+# data/**/*.png
+# data/**/*.pdf
+# results/**/*.png
+# results/**/*.pdf
