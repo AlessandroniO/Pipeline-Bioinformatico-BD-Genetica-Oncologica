@@ -62,6 +62,7 @@ venv*/
 # results/**/*.png
 # results/**/*.pdf
 
+<<<<<<< HEAD
 # ===========================
 # Archivos de reportes y figuras
 # ===========================
@@ -103,3 +104,11 @@ mysql_data/*
 data/intermediate/clinvar_grch38_parsed.tsv
 data/intermediate/variantes_somaticas_API_anotadas.csv
 data/intermediate/variantes_germinales_API_anotadas.csv
+=======
+# Archivos grandes / bases de datos locales
+Cosmic_GenomeScreensMutant_Tsv_v102_GRCh38.tar
+Cosmic_GenomeScreensMutant_Tsv_v102_GRCh38/
+GRCh38_latest_clinvar.vcf.gz.vcf
+GRCh38_subset.vcf
+
+>>>>>>> c8e17d3dc6f682e85cbbf010b6c9ac0ad753de88
