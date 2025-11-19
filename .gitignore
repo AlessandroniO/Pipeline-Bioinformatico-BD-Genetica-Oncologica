@@ -9,9 +9,9 @@ logs/
 vep_cache/
 mysql_data/
 
-# Si querés mantener un placeholder:
-# !data/.gitkeep
-# !results/.gitkeep
+# Directorios intermedios y procesados
+data/processed/
+data/intermediate/
 
 # ===========================
 # Archivos temporales y de logs
@@ -44,8 +44,7 @@ venv*/
 *.env
 
 # ===========================
-# Índices / aligners (si aparecieran fuera de data/ y results/)
-# (si solo viven en data/ o results/, ya quedan ignorados por arriba)
+
 *.idx
 *.bt2
 *.bwt
@@ -57,11 +56,9 @@ venv*/
 *.fai
 
 # ===========================
-# ¡OJO!: No ignoramos imágenes/PDF globalmente
-# (para poder versionar figuras y reportes en docs/)
-# Si realmente querés ignorarlas solo en data/ y results/,
-# usá (opcional):
+
 # data/**/*.png
 # data/**/*.pdf
 # results/**/*.png
 # results/**/*.pdf
+
